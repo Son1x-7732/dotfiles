@@ -114,4 +114,12 @@ alias rm="rm -v"
 # --- 7. LOAD THEME CONFIG ---
 # To customize prompt, run `p10k configure`
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ---Git config for Dotfiles---
 alias config='/usr/bin/git --git-dir=/home/zen0/.dotfiles/ --work-tree=/home/zen0'
+
+dotsync() {
+    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add -u
+    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME commit -m "Update: $(date)"
+    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME push
+}
