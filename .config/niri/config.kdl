@@ -1,0 +1,32 @@
+mkdir -p ~/.config/niri
+cat << 'EOF' > ~/.config/niri/config.kdl
+// Automatically run these when Niri starts
+spawn-at-startup "waybar"
+spawn-at-startup "swaybg" "-m" "fill" "-i" "/home/zen0/Pictures/wallpaper.jpg"
+
+// Set the default layout properties
+layout {
+    gaps 16
+    center-focused-column "never"
+    default-column-width { proportion 0.5; }
+}
+
+// Keybindings
+binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+    
+    // Core Applications
+    Mod+T { spawn "kitty"; }
+    Mod+D { spawn "fuzzel"; }
+    
+    // Window Management
+    Mod+Q { close-window; }
+    Mod+Left  { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up    { focus-window-up; }
+    Mod+Down  { focus-window-down; }
+    
+    // Session
+    Mod+Shift+E { quit; }
+}
+EOF
