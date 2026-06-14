@@ -26,6 +26,14 @@ setopt HIST_FIND_NO_DUPS       # Do not display duplicates when searching
 setopt SHARE_HISTORY           # Share history between terminals
 setopt BANG_HIST               # Enable !! and !$ expansion
 
+# --- AUTOCOMPLETION ENGINE ---
+# Initialize the native Zsh completion system
+autoload -Uz compinit
+compinit
+
+# Make the Tab-completion menu navigable with arrow keys (just like Fish)
+zstyle ':completion:*' menu select
+
 # --- 3. CACHYOS / ARCH PLUGINS ---
 # We source these directly from /usr/share to avoid "Oh My Zsh" bloat
 
