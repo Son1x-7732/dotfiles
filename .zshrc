@@ -1,8 +1,12 @@
 # ==========================================
-#  ZENO'S POWER USER ZSH CONFIG (CachyOS)
+#  NIX@VOID ZSH CONFIG
 # ==========================================
 
-# --- 1. INSTANT PROMPT (Must be at the top) ---
+# --- 1. KITTY BORDER LOCK & INSTANT PROMPT ---
+# Lock Kitty top border text
+DISABLE_AUTO_TITLE="true"
+echo -en "\e]0;kitty\a"
+
 # Enables the prompt to appear instantly while plugins load in the background
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -12,98 +16,84 @@ fi
 export EDITOR='micro'
 export VISUAL='micro'
 export TERMINAL='kitty'
-export MANPAGER="sh -c 'col -bx | bat -l man -p'" # Use bat for man pages
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export PATH="$HOME/.local/bin:$PATH"
 
-# History Settings (Optimized for performance)
+# History Settings
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt APPEND_HISTORY          # Append to history file
-setopt INC_APPEND_HISTORY      # Write to history immediately
-setopt HIST_IGNORE_DUPS        # Don't record duplicates
-setopt HIST_FIND_NO_DUPS       # Do not display duplicates when searching
-setopt SHARE_HISTORY           # Share history between terminals
-setopt BANG_HIST               # Enable !! and !$ expansion
+setopt APPEND_HISTORY          
+setopt INC_APPEND_HISTORY      
+setopt HIST_IGNORE_DUPS        
+setopt HIST_FIND_NO_DUPS       
+setopt SHARE_HISTORY           
+setopt BANG_HIST               
 
 # --- AUTOCOMPLETION ENGINE ---
-# Initialize the native Zsh completion system
 autoload -Uz compinit
 compinit
-
-# Make the Tab-completion menu navigable with arrow keys (just like Fish)
 zstyle ':completion:*' menu select
 
-# --- 3. CACHYOS / ARCH PLUGINS ---
-# We source these directly from /usr/share to avoid "Oh My Zsh" bloat
+# --- 3. PLUGINS ---
 
-# A. Powerlevel10k Theme
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+# A. Powerlevel10k Theme (Local Clone)
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 
-# B. Fish-like Syntax Highlighting (Must be at the end of plugins)
+# B. Fish-like Syntax Highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # C. Ghost History (Autosuggestions)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-# Tweak: Make suggestions grey (like Fish)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 
-# D. History Substring Search (Type 'git' then Up Arrow)
+# D. History Substring Search
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 
-# E. "Command Not Found" handler (Suggests which package to install)
+# E. "Command Not Found" handler
 source /usr/share/doc/pkgfile/command-not-found.zsh
 
-# F. FZF Integration (Ctrl+R for history, Ctrl+T for files)
+# F. FZF Integration
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
 # --- 4. KEYBINDINGS ---
-bindkey -e # Use Emacs mode (Standard)
-
-# Map Up/Down to History Substring Search
+bindkey -e 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # --- 5. HELPER FUNCTIONS ---
-
-# Function: Backup a file (usage: backup file.txt -> file.txt.bak)
 function backup() {
     cp -iv "$1" "$1.bak"
 }
 
-# Note: Zsh supports '!!' and '!$' natively.
-# You don't need functions for them. Just type '!!' and hit Enter.
-
-# --- 6. ALIASES (Ported from Fish) ---
+# --- 6. ALIASES ---
 
 # > Navigation
 alias ..='cd ..'
 alias ...='cd ../..'
-alias ll='eza -al --color=always --group-directories-first --icons'
-alias ls='eza -al --color=always --group-directories-first --icons'
-alias lt='eza -aT --color=always --group-directories-first --icons'
+alias ll='eza --icons --git --long --header --group-directories-first'
+alias ls='eza --icons --git'
+alias lt='eza --icons --tree'
 
-# > Package Management (Paru/Pacman)
-alias update='paru -Syu'
-alias install='paru -S'
-alias search='paru -Ss'
-alias delete='paru -Rns'
-alias cleanup='paru -Rns $(pacman -Qtdq)' # Removed orphans
-alias cleancache='paru -Sc'
+# > Package Management (Pacman)
+alias update='sudo pacman -Syu'
+alias install='sudo pacman -S'
+alias search='pacman -Ss'
+alias delete='sudo pacman -Rns'
+alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
+alias cleancache='sudo pacman -Sc'
 alias fixpacman="sudo rm /var/lib/pacman/db.lck"
 alias mirror="sudo cachyos-rate-mirrors"
-alias findpkg="paru -Qs"
-alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl" # Recent installs
+alias findpkg="pacman -Qs"
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 
 # > Config Shortcuts
 alias zshconf="micro ~/.zshrc"
-alias fishconf="micro ~/.config/fish/config.fish" # Keep this just in case
 alias kittyconf="micro ~/.config/kitty/kitty.conf"
-alias alacrittyconf="micro ~/.config/alacritty/alacritty.toml"
 alias hyprconf="micro ~/.config/hypr/hyprland.conf"
 alias niriconf="micro ~/.config/niri/config.kdl"
-alias reload="source ~/.zshrc" # Reload Zsh config instantly
+alias reload="source ~/.zshrc"
 alias waybarjson="micro ~/.config/waybar/config.jsonc"
 alias waybarcss="micro ~/.config/waybar/style.css"
 
@@ -119,15 +109,16 @@ alias cp="cp -iv"
 alias mv="mv -iv"
 alias rm="rm -v"
 
-# --- 7. LOAD THEME CONFIG ---
-# To customize prompt, run `p10k configure`
+# --- 7. LOAD P10K LAYOUT ---
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# ---Git config for Dotfiles---
-alias config='/usr/bin/git --git-dir=/home/zen0/.dotfiles/ --work-tree=/home/zen0'
+# --- 8. BARE REPO DOTFILES ---
+alias config='/usr/bin/git --git-dir=/home/nix/.dotfiles/ --work-tree=/home/nix'
 
-dotsync() {
-    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add -u
-    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME commit -m "Update: $(date)"
-    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME push
-}
+# Note: You previously preferred a manual dotsync instead of this automated one to prevent 
+# pushing broken configs or sensitive data. If you wish to use the automated version, uncomment it.
+# dotsync() {
+#    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add -u
+#    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME commit -m "Update: $(date)"
+#    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME push
+# }
