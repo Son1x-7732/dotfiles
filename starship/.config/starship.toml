@@ -1,0 +1,15 @@
+
+# Enable editor autocompletion and validation
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Add a blank line between prompts
+add_newline = true
+
+# Customize the prompt arrow
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'
+
+# Hide package name and version information
+[package]
+disabled = true
