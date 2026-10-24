@@ -239,6 +239,12 @@ layout {
     }
 }
 
+blur {
+    passes 3
+    offset 3.0
+    noise 0.02
+}
+
 spawn-at-startup "noctalia"
 spawn-at-startup "wl-clip-persist" "--clipboard" "regular"
 
@@ -260,6 +266,11 @@ prefer-no-csd
 cursor {
     xcursor-theme "breeze_cursors"
     xcursor-size 24
+}
+
+debug {
+    // Allows notification actions and window activation from Noctalia.
+    honor-xdg-activation-with-invalid-serial
 }
 
 // You can change the path where screenshots are saved.
@@ -336,6 +347,17 @@ window-rule {
 	match app-id="chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default"
 	focus-ring { off; }
 	border { off; }
+}
+
+// Blurred, transparent kitty
+window-rule {
+    match app-id="kitty"
+    draw-border-with-background false
+    background-effect {
+        blur true
+    }
+    //geometry-corner-radius 12
+    //clip-to-geometry true
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
