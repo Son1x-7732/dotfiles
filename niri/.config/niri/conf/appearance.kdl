@@ -1,0 +1,12 @@
+prefer-no-csd
+
+cursor {
+    xcursor-theme "breeze_cursors"
+    xcursor-size 24
+}
+
+blur {
+    passes 3
+    offset 3.0
+    noise 0.02
+}

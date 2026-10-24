@@ -1,0 +1,33 @@
+// Maximize heavy apps on launch
+window-rule {
+    match app-id="helium"
+    match app-id="md.obsidian.Obsidian"
+    match app-id="dev.zed.Zed"
+    match app-id="com.system76.CosmicFiles"
+    match app-id="Chatgpt"
+    open-maximized true
+}
+
+// No focus ring or border on these
+window-rule {
+    match app-id="dev.zed.Zed"
+    match app-id="com.system76.CosmicFiles"
+    match app-id="chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default"
+    focus-ring { off; }
+    border { off; }
+}
+
+// Firefox picture-in-picture floats
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// Blurred, transparent kitty
+window-rule {
+    match app-id="kitty"
+    draw-border-with-background false
+    background-effect {
+        blur true
+    }
+}

@@ -1,0 +1,14 @@
+binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
+    Mod+Space { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+    Mod+V { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
+    Mod+Shift+Q { spawn "noctalia" "msg" "panel-toggle" "session"; }
+
+    Mod+Shift+N hotkey-overlay-title="Toggle Night Light" {
+        spawn-sh "if pgrep -x wlsunset > /dev/null 2>&1; then pkill -x wlsunset; else wlsunset -t 4500 -T 6500 -S 00:00 -s 00:01 & fi";
+    }
+
+    Mod+Alt+R { spawn "~/.config/niri/toggle_rotation.sh"; }
+}

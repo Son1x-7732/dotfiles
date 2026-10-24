@@ -1,0 +1,13 @@
+spawn-at-startup "noctalia"
+spawn-at-startup "wl-clip-persist" "--clipboard" "regular"
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+debug {
+    // Allows notification actions and window activation from Noctalia.
+    honor-xdg-activation-with-invalid-serial
+}
