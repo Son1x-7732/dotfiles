@@ -31,3 +31,9 @@ window-rule {
         blur true
     }
 }
+window-rule {
+    match app-id="dev.zed.Zed"
+    background-effect {
+        blur true
+    }
+}
