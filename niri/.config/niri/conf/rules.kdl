@@ -37,3 +37,9 @@ window-rule {
         blur true
     }
 }
+window-rule {
+	match app-id="dev.noctalia.Noctalia"
+	background-effect {
+		blur true
+	}
+}

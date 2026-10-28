@@ -44,3 +44,16 @@ function dotsync -d "Commit and push dotfiles"
     git -C ~/dotfiles add .
     git -C ~/dotfiles commit -m "$msg"; and git -C ~/dotfiles push
 end
+
+#Push obsidian notes
+function notesync -d "Commit and push Obsidian notes"
+    set -l vault ~/Documents/obsidianVault   # change this
+
+    set -l msg "notes: "(date '+%Y-%m-%d %H:%M')
+    test (count $argv) -gt 0; and set msg "$argv"
+
+    git -C $vault status --short
+    git -C $vault add -A
+    git -C $vault commit -m "$msg"
+    git -C $vault pull --rebase; and git -C $vault push
+end
